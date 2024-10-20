@@ -4,7 +4,7 @@ public static class Program
 {
     public static async Task Main()
     {
-        var client = new AsyncClient("YOUR_TOKEN_HERE");
+        using var client = new AsyncClient("YOUR_TOKEN_HERE");
         
         Console.WriteLine($"Remained requests count: {await client.GetRateLimitAsync()}");
         

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GithubApi;
 
-public class AsyncClient: IAsyncDisposable
+public class AsyncClient: IDisposable
 {
     private HttpClient Client { get; }
 
@@ -72,12 +72,6 @@ public class AsyncClient: IAsyncDisposable
         var response = await Client.GetStringAsync("https://api.github.com/rate_limit");
         return JObject.Parse(response)["rate"]["remaining"].ToObject<int>();
     }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (Client is IAsyncDisposable clientAsyncDisposable)
-            await clientAsyncDisposable.DisposeAsync();
-        else
-            Client.Dispose();
-    }
+    
+    public void Dispose() => Client.Dispose();
 }
